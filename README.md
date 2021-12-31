@@ -1,0 +1,2 @@
+# HomeAssistant
+树莓派4B安装配置HomeAssistant
