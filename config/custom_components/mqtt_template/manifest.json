@@ -1,0 +1,9 @@
+{
+  "version": "0.0.1",
+  "domain": "mqtt_template",
+  "name": "mqtt template switch",
+  "documentation": "https://github.com/rizjiy/hass_mqtt_template_switch",
+  "dependencies": [],
+  "codeowners": [],
+  "requirements": []
+}

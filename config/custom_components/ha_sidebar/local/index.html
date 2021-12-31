@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/materialdesignicons.min.css" rel="stylesheet">
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .input,
+        .select {
+            margin-bottom: 1rem;
+        }
+
+        .op-btn {
+            margin-top: 1rem;
+            margin-left: 10px;
+            padding: 3px 15px;
+        }
+
+        .op-btn i {
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="shadow border-sm" style="margin-bottom: 1rem;" v-for="item in list">
+                    <div class="card-body">
+                        <h2 class="card-title ">
+                            <i :class="`mdi ${item.icon.replace(':','-')}`"></i>
+                            {{item.name}}</h2>
+                        <hr class="divider">
+                        <p style="overflow:auto;">
+                            {{item.link}}
+                        </p>
+                        <div style="text-align: right;">
+                            <a class="btn btn-link btn-default border" title="打开链接" style="margin-top: 1rem;"
+                                v-if="item.mode==2" :href="item.href" target="_blank">{{item.modeName}}</a>
+                            <a class="btn btn-link btn-default border" title="打开链接" style="margin-top: 1rem;" v-else
+                                :href="item.href">{{item.modeName}}</a>
+                            <a class="btn btn-link btn-default border-all op-btn" title="删除" @click="deleteClick(item)">
+                                <i class="mdi mdi-delete"></i>
+                            </a>
+                            <!-- <a class="btn btn-link btn-default border-all op-btn">
+                                <i class="mdi mdi-circle-edit-outline"></i>
+                            </a> -->
+
+                        </div>
+                    </div>
+                </div>
+                <div class="shadow border-sm" style="margin-bottom: 1rem;">
+                    <div class="card-body">
+                        <h2 class="card-title ">版本：{{ver}}</h2>
+                        <hr class="divider">
+                        <p style="overflow:auto;">
+                            项目介绍：在HA里使用的侧边栏管理
+                            <br /><br />
+                            项目地址：https://github.com/shaonianzhentan/ha_sidebar
+                            <br /><br />
+                            如果觉得此项目对你有用，请给项目点一个Star，谢谢
+                        </p>
+                        <div style="text-align: right;">
+                            <a class="btn btn-link btn-default border" style="margin-top: 1rem;" target="_blank"
+                                href="https://github.com/shaonianzhentan/ha_sidebar">查看项目</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <fieldset class="fieldset">
+                    <legend class="legend">名称</legend>
+                    <div>
+                        <input class="input border" type="text" placeholder="侧边栏名称" v-model.trim="formData.name">
+                    </div>
+                    <legend class="legend"><a href="https://unpkg.com/@mdi/font@5.6.55/preview.html"
+                            style="color: #0000008a;" target="_blank">图标</a></legend>
+                    <div>
+                        <input class="input border" type="text" placeholder="mdi:link（点击图标选择吧）"
+                            v-model.trim="formData.icon">
+                    </div>
+
+                    <legend class="legend">打开方式</legend>
+                    <div>
+                        <select class="select" v-model="formData.mode">
+                            <option value="0">默认</option>
+                            <option value="1">全屏</option>
+                            <option value="2">新选项卡</option>
+                            <option value="3">内置页面</option>
+                        </select>
+                    </div>
+
+                    <legend class="legend">链接</legend>
+                    <div>
+                        <input class="input border" type="text" placeholder="https://demo.home-assistant.io"
+                            v-model.trim="formData.link">
+                    </div>
+
+                    <legend class="legend">局域网链接</legend>
+                    <div>
+                        <input class="input border" type="text" placeholder="非必填项, 同一网段下优先访问此链接"
+                            v-model.trim="formData.wlan_link">
+                    </div>
+                    <div class="row" style="align-items: center;">
+                        <div class="col-md-6"><label class="radio-label"><input class="radio" type="checkbox"
+                                    name="radio" v-model="formData.show">
+                                侧边栏显示</label></div>
+                        <div class="col-md-6 col-md-offset-6"><button class="btn btn-default btn-full border"
+                                @click="saveClick">保存</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <script src="js/ha.js?v=1.3"></script>
+    <script src="js/vue.min.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    ver: ha.ver,
+                    formData: {
+                        name: '',
+                        icon: '',
+                        mode: 0,
+                        link: '',
+                        wlan_link: '',
+                        show: true
+                    },
+                    list: []
+                }
+            },
+            created() {
+                this.load()
+            },
+            methods: {
+                load() {
+                    ha.fetchApi({
+                        type: 'get'
+                    }).then(res => {
+                        // console.log(res)
+                        this.list = res.data.map(ele => {
+                            ele['modeName'] = ['默认', '全屏', '新选项卡', '内置页面'][ele.mode]
+                            // 打开新选项卡
+                            if (ele.mode == 2) {
+                                ele['href'] = ele.link
+                            } else {
+                                ele['href'] = `link.html?r=${Date.now()}&mode=${ele.mode}&link=${encodeURIComponent(ele.link)}&wlan_link=${encodeURIComponent(ele.wlan_link)}`
+                            }
+                            return ele
+                        })
+                    })
+                },
+                saveClick() {
+                    let { name, icon, link, wlan_link, show, mode } = this.formData
+                    if (!name || !link) {
+                        return ha.toast("名称、链接为必填项")
+                    }
+                    if (!icon) icon = 'mdi:link'
+
+                    ha.fetchApi({
+                        type: 'add',
+                        name,
+                        icon: icon.replace('mdi-', 'mdi:'),
+                        link, wlan_link, show, mode
+                    }).then(res => {
+                        if (res.code == 0) {
+                            location.reload()
+                        } else {
+                            ha.toast(res.msg)
+                        }
+                    })
+                },
+                deleteClick({ path }) {
+                    ha.fetchApi({
+                        type: 'delete',
+                        path
+                    }).then(res => {
+                        this.load()
+                        ha.toast('删除成功')
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

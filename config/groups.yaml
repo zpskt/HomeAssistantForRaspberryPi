@@ -1,0 +1,29 @@
+systemmonitor:
+  name: 系统监控
+  entities:
+    - sensor.date
+    - sensor.time
+    - sensor.connected_clients
+    - sensor.cpu_temperature
+    - sensor.disk_use_percent
+    - sensor.disk_use
+    - sensor.disk_free
+    - sensor.memory_use_percent
+    - sensor.memory_use
+    - sensor.memory_free
+    - sensor.swap_use_percent
+    - sensor.swap_use
+    - sensor.swap_free
+    - sensor.processor_use
+    - sensor.last_boot
+    - sensor.load_1m
+    - sensor.load_5m
+    - sensor.load_15m
+    - sensor.network_in_eth0
+    - sensor.network_out_eth0
+    - sensor.network_throughput_in_eth0
+    - sensor.network_throughput_out_eth0
+    - sensor.packets_in_eth0
+    - sensor.packets_out_eth0
+    - sensor.ipv4_address_eth0
+    - sensor.ipv6_address_eth0

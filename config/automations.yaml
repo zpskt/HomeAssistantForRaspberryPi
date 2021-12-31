@@ -1,0 +1,11 @@
+- id: '1612012496872'
+  alias: 扫描到标签 健康吗
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: ea4f4453-9297-400e-9410-9a6ad607dde3
+  condition: []
+  action:
+  - service: command_line.reload
+    data: {}
+  mode: single

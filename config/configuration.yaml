@@ -1,0 +1,194 @@
+# 加载自定义配置文件
+homeassistant:
+  customize: !include customize.yaml
+  packages: !include_dir_named packages
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+weather:
+  - platform: hf_weather
+    name: 天气
+    city: qingdao
+    appkey: ac28a8fdeb97e6d1cf728f83ee565b4a
+#mqtt:
+#  # MQTT Broker的IP地址或者域名
+#  broker: localhost
+#  # MQTT Broker的端口号，缺省为1883
+#  port: 1883
+#电视投屏功能
+discovery:
+  enable:
+    - dlna_dmr
+media_player:
+  - platform: mpd
+    host: localhost
+  - platform: ha_cloud_music
+    api_url: 'http://localhost:3000'
+    sidebar_title: 云音乐
+    sidebar_icon: mdi:music
+    show_mode: fullscreen
+    uid: 104245256
+    user: 15866965614
+    password: zhangpeng1211zP
+    tts_before_message: '主人：'
+    tts_after_message: '。我是爱你的小喵'
+    tts_mode: 4
+    is_voice: true
+    is_notify: true
+    is_debug: true
+#weather:
+#  - platform: hf_weather
+#    name: 天气
+#    city: qingdao
+#    appkey: ac28a8fdeb97e6d1cf728f83ee565b4a
+ha_file_explorer:
+
+# 从提供的流进行录制
+stream:
+
+#camera:
+#  # 通用摄像机
+#  - platform: generic
+#    still_image_url: http://192.168.0.100:8081/
+#    stream_source: http://192.168.0.100:8081/
+
+# 配置后生成【ha_qqmail.notify】服务
+ha_qqmail:
+  qq: 2233151897
+  code: ejkuxjlgntskecdf
+# 完整配置
+ha_sidebar:
+  name: 侧边栏管理
+  icon: mdi:view-list-outline
+# 设备实体: 蓝牙MAC地址
+ha_ble_home:
+  'person.zp': 'EB:FA:BC:2C:8F:34'
+ha_baidu_map:
+  ak: YmmALvbSglIqLngit9z9xGEQ13BTvBXU
+# Example configuration.yaml entry
+#mqtt:
+#  broker: 192.168.0.100
+#  discovery: true
+#  discovery_prefix: homeassistant
+#
+#      
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+# 配置日志记录，排除掉这个实体
+recorder:
+  exclude:
+    entities:
+      - media_player.yun_yin_le  
+# 使用爬虫组件
+sensor:
+  - platform: scrape
+    resource: https://book.qidian.com/info/1019941746
+    name: 大侠等一等
+    select: ".update .detail a"
+    scan_interval: 3600
+  - platform: scrape
+    resource: https://book.qidian.com/info/1023035179
+    name: 大王叫我来守夜
+    select: ".update .detail a"
+    scan_interval: 3600
+    index: 0
+    attribute: "href"
+    headers:
+      User-Agent: Mozilla/5.0
+# 传感器配置
+sensor:
+  - platform: mqtt
+    name: "Temperature"
+    state_topic: "office/sensor1"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.temperature }}"
+  - platform: mqtt
+    name: "Humidity"
+    state_topic: "office/sensor1"
+    unit_of_measurement: '%'
+    value_template: "{{ value_json.humidity }}"
+  # 系统日期时间
+  - platform: time_date
+    display_options:
+      - date
+      - time
+  # 显示有多少客户端连接
+  - platform: websocket_api
+  #　CPU 温度
+  - platform: command_line
+    name: CPU Temperature
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+  # 系统监控
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /
+      - type: disk_use
+        arg: /
+      - type: disk_free
+        arg: /
+      - type: memory_use_percent
+      - type: memory_use
+      - type: memory_free
+      - type: swap_use_percent
+      - type: swap_use
+      - type: swap_free
+      - type: processor_use
+      - type: last_boot
+      - type: load_1m
+      - type: load_5m
+      - type: load_15m
+      - type: network_in
+        arg: eth0
+      - type: network_out
+        arg: eth0
+      - type: throughput_network_in
+        arg: eth0
+      - type: throughput_network_out
+        arg: eth0
+      - type: packets_in
+        arg: eth0
+      - type: packets_out
+        arg: eth0
+      - type: ipv4_address
+        arg: eth0
+      - type: ipv6_address
+        arg: eth0
+        
+## 此配置添加系统内实体sensor.mqtt_sensor_1
+#light:
+#  #设备类型 MQTT
+#  - platform: mqtt
+#  # 设备名字
+#    name: "LED light over MQTT"
+#  # HASS标准格式  状态话题  HASS接收来自设备的状态信息
+#    state_topic: "hachina/hardware/led01/state"
+#  # HASS标准格式  命令话题  HASS发送控制设备的命令
+#    command_topic: "hachina/hardware/led01/switch"
+#  # 命令格式  on 和 off
+#    payload_on: "on"
+#    payload_off: "off"
+#语音助手
+conversation:
+# #自定义面板
+# panel_custom:
+#   - name: custom-panel-name
+#     sidebar_title: 自定义面板
+#     sidebar_icon: mdi:work
+#     url_path: custom-panel-name
+#     js_url: /local/custom-panel-name.js
+#     config:
+#       info: 配置信息
+#       test: 测试信息xxx
+# 主题
+frontend:
+  themes: !include_dir_merge_named themes
