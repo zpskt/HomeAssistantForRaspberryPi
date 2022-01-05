@@ -1,3 +1,8 @@
-FROM zpskt/hass-armv7:0.0.1
-
-CMD ["/bin/sh","/root/hass_start.sh"]
+FROM zpskt/hass-raspi4:0.0.1
+#复制文件
+COPY hass_start.sh /
+#复制文件，tar等自动解压
+#ADD
+#定参
+ENTRYPOINT ["/usr/local/bin/hass", "-c"]
+CMD ["/root/.homeassistant"]
