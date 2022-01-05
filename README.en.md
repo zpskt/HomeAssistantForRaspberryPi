@@ -14,36 +14,36 @@ Software architecture description
 ### 配置属于自己的docker镜像
 1.		sudo docker pull ubuntu:latest
 2.		sudo docker run -itd --name hass-test ubuntu
-####进入容器后：
-####更新源
+###进入容器后：
+###更新源
 3.		apt update -y && apt upgrade -y
 4.		apt-get install -y python3.9 python3.9-dev python3.9-venv python3.9-pip libffi-dev libssl-dev libjpeg-dev zlib1g-dev autoconf build-essential libopenjp2-7 libtiff5 libturbojpeg tzdata
-####安装python3和pip
+###安装python3和pip
 5.		apt-get install python3.9 -y
 6.		apt-get install python3.9-pip -y
-####安装homeassistant
+###安装homeassistant
 7.		pip3 install wheel -i https://pypi.tuna.tsinghua.edu.cn/simple
 8.		pip3 install homeassistant -i https://pypi.tuna.tsinghua.edu.cn/simple
-####安装完命令行执行hass，此时hass命令在>/usr/local/bin/hass中
+###安装完命令行执行hass，此时hass命令在>/usr/local/bin/hass中
 9.		hass / hass --open-ui
-####复制自己的配置文件到容器中
+###复制自己的配置文件到容器中
 10.		sudo docker cp ./config hass-test:/root
-####提交自己的容器生成一个镜像
+###提交自己的容器生成一个镜像
 11.		sudo docker commit -m "hass-0.0.1" -a "zp" hass-test(你的容器名字) zpskt/hass-raspi4:0.0.1
-####提交自己的镜像到dockerhub。（要在终端进行登陆你的docker账号）
+###提交自己的镜像到dockerhub。（要在终端进行登陆你的docker账号）
 12.		sudo docker push zpskt/hass-raspi4:0.0.1（你的镜像名字）
-####开启此容器
+###开启此容器
 14.		sudo docker run --name zphass -p 8124:8123 -it zpskt/hass-amd64:0.0.1 /bin/bash
-####编排docker，设置容器开机启动hass 
+###编排docker，设置容器开机启动hass 
 15.		nano Dockerfile
 16.	>  FROM zpskt/hass-raspi4:0.0.1  
 	   ENTRYPOINT ["/usr/local/bin/hass", "-c"]
 	   CMD ["/root/.homeassistant"]>
-####根据dockerfile建立镜像
+###根据dockerfile建立镜像
 17.		sudo docker build -t zpskt/hass-raspi4:latest.
-####执行容器
+###执行容器
 18.		sudo docker run --name hass-test -d -p 8124:8123 -it zpskt/hass-raspi4:latest /bin/bash
-#### Instructions
+## Instructions
 
 1.  xxxx
 2.  xxxx
