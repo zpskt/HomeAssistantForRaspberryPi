@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>智慧家居</title>
+    <link
+      rel="modulepreload"
+      href="<%= latestPageJS %>"
+      crossorigin="use-credentials"
+    />
+    <%= renderTemplate('_header') %>
+    <style>
+      html {
+        color: var(--primary-text-color, #212121);
+        background-color: #0277bd !important;
+      }
+      .content {
+        box-sizing: border-box;
+        padding: 20px 16px;
+        border-radius: 4px;
+        max-width: 432px;
+        margin: 64px auto 0;
+        box-shadow: var(
+          --ha-card-box-shadow,
+          rgba(0, 0, 0, 0.25) 0px 54px 55px,
+          rgba(0, 0, 0, 0.12) 0px -12px 30px,
+          rgba(0, 0, 0, 0.12) 0px 4px 6px,
+          rgba(0, 0, 0, 0.17) 0px 12px 13px,
+          rgba(0, 0, 0, 0.09) 0px -3px 5px
+        );
+        background: var(
+          --ha-card-background,
+          var(--card-background-color, white)
+        );
+        color: var(--primary-text-color, #212121);
+      }
+
+      .header {
+        text-align: center;
+        font-size: 1.96em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 300;
+      }
+
+      .header img {
+        margin-right: 16px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        html {
+          color: #e1e1e1;
+        }
+      }
+
+      @media (max-width: 450px) {
+        .content {
+          min-height: 100%;
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body id="particles">
+    <div class="content">
+      <div class="header">
+        <img src="/static/icons/favicon-192x192.png" height="52" width="52" alt="" />
+        智慧家居
+      </div>
+
+      <ha-onboarding></ha-onboarding>
+    </div>
+
+    <%= renderTemplate('_js_base') %>
+    <%= renderTemplate('_preload_roboto') %>
+
+    <script crossorigin="use-credentials">
+      // Safari 12 and below does not have a compliant ES2015 implementation of template literals, so we ship ES5
+      if (!isS11_12) {
+        import("<%= latestPageJS %>");
+        window.latestJS = true;
+        window.stepsPromise = fetch("/api/onboarding", {
+          credentials: "same-origin",
+        });
+        if (!window.globalThis) {
+          window.globalThis = window;
+        }
+      }
+    </script>
+
+    <script>
+      (function() {
+        if (!window.latestJS) {
+          <% if (useRollup) { %>
+            _ls("/static/js/s.min.js").onload = function() {
+              System.import("<%= es5PageJS %>");
+            }
+          <% } else { %>
+            _ls("<%= es5PageJS %>");
+          <% } %>
+        }
+      })();
+    </script>
+  </body>
+</html>

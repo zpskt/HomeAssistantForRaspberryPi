@@ -2,7 +2,8 @@
 
 ## 介绍
 config放置homeassistant配置文件
-install放置开机服务，脚本，dockerfile等  
+install放置开机服务，脚本，dockerfile等
+一个厉害的人的教程：https://shaonianzhentan.github.io/ha-docs/#/    
 官方文档：  
 前端文档：https://developers.home-assistant.io/docs/frontend/  
 HASS开始：https://www.home-assistant.io/getting-started/  
@@ -75,7 +76,7 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 		sudo docker build -t zpskt/hass-raspi4:latest .
 执行容器
 
-		sudo docker run --name hass-test -d -p 8124:8123 -it zpskt/hass-raspi4:latest /bin/bash
+		sudo docker run --name hass -d -p 8124:8123 -v /home/pi/homeassistant:/root/.homeassistant -it zpskt/hass-raspi4:0.0.2 /bin/bash
 ### 修改属于自己的frontend 
 首先git下来frontend源码，我已经fork了  
 
@@ -117,7 +118,11 @@ hass启动命令
 		sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
 		sys.exit(main())
 
+
+
+
 nodejs 解析web 有自己的服务器 =vue
 为什么引用ts
 有个文件调用hass core
 
+loadingdata 图标

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>智慧家居</title>
+    <link rel="modulepreload" href="<%= latestPageJS %>" crossorigin="use-credentials" />
+    <%= renderTemplate('_header') %>
+    <style>
+      .content {
+        padding: 20px 16px;
+        max-width: 360px;
+        margin: 0 auto;
+      }
+
+      .header {
+        font-size: 1.96em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 300;
+      }
+
+      .header img {
+        margin-right: 16px;
+      }
+      @media (prefers-color-scheme: dark) {
+        html {
+          background-color: #111111;
+          color: #e1e1e1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <div class="header">
+        <img src="/static/icons/favicon-192x192.png" height="52" alt="" />
+        智慧家居
+      </div>
+      <ha-authorize><p>Initializing</p></ha-authorize>
+    </div>
+
+    <%= renderTemplate('_js_base') %>
+    <%= renderTemplate('_preload_roboto') %>
+
+    <script crossorigin="use-credentials">
+      // Safari 12 and below does not have a compliant ES2015 implementation of template literals, so we ship ES5
+      if (!isS11_12) {
+        import("<%= latestPageJS %>");
+        window.latestJS = true;
+        window.providersPromise = fetch("/auth/providers", {
+          credentials: "same-origin",
+        });
+        if (!window.globalThis) {
+          window.globalThis = window;
+        }
+      }
+    </script>
+
+    <script>
+      (function() {
+        if (!window.latestJS) {
+          <% if (useRollup) { %>
+            _ls("/static/js/s.min.js").onload = function() {
+              System.import("<%= es5PageJS %>");
+            }
+          <% } else { %>
+            _ls("<%= es5PageJS %>");
+          <% } %>
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+<meta charset="utf-8">
+<link rel='manifest' href='/manifest.json' crossorigin="use-credentials">
+<link rel='icon' href='/static/icons/favicon.ico'>
+<%= renderTemplate('_style_base') %>
