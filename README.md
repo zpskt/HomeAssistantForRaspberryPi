@@ -55,6 +55,10 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 6.		make && make install   
 7.		ln -s /usr/local/python3/bin/python3.9 /usr/bin/python3   
 8.		ln -s /usr/local/python3/bin/pip3.9 /usr/bin/pip3   
+检查你的pip3版本，我用的是20.2.4成功的
+		pip3 -V #查看版本
+		/usr/local/python3/bin/python3.9 -m pip install pip==20.2.4 #降级命令
+
 9.		pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 再次更新源，并且安装依赖  
@@ -64,7 +68,8 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 安装homeassistant  
 
 3.		pip3 install wheel -i https://pypi.tuna.tsinghua.edu.cn/simple
-4.		pip3 install homeassistant -i https://pypi.tuna.tsinghua.edu.cn/simple
+4.		pip3 install homeassistant -i https://pypi.tuna.tsinghua.edu.cn/simple  
+ 
 5.		ln -s /usr/local/python3/bin/hass /usr/bin/hass  
 安装完命令行执行hass，此时hass命令在/usr/local/bin/hass中  
 
