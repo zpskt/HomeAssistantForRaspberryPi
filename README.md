@@ -2,16 +2,33 @@
 
 ## 介绍
 config放置homeassistant配置文件
-install放置开机服务，脚本，dockerfile等
+install放置开机服务，脚本，dockerfile等  
 一个厉害的人的教程：https://shaonianzhentan.github.io/ha-docs/#/    
 官方文档：  
 前端文档：https://developers.home-assistant.io/docs/frontend/  
 HASS开始：https://www.home-assistant.io/getting-started/  
 中文论坛：https://bbs.hassbian.com/  
 外文论坛：https://community.home-assistant.io/categories
+### 前端架构
+	frontend/src/entrypoints/core.js 
+	这是一个非常小的脚本，它是页面上加载的第一件事。它负责检查身份验证凭据并设置与后端的 websocket 连接。
+	frontend/src/entrypoints/app.js
+	这是渲染侧边栏和处理路由所需的一切
+	frontend/src/panels/
+	Home Assistant 中的每个页面都是一个面板。组件可以注册额外的面板以显示给用户。面板的示例是“状态”、“地图”、“日志”和“历史”。
+	frontend/src/dialogs
+	某些信息和数据条目以流的形式呈现给用户。对话框可以在任何页面上触发。最常见的是实体更多信息对话框，它允许用户深入了解实体状态、历史和设置  
+	frontend/package.json 位于模块的目录下，用于定义包的属性.   
+项目采用node进行管理设置。
+> Node 是一个服务器端 JavaScript 解释器，用于方便地搭建响应速度快、易于扩展的网络应用。Node.js 使用事件驱动， 非阻塞I/O 模型而得以轻量和高效，非常适合在分布式设备上运行数据密集型的实时应用。  
+>Node.js 是一个可以让 JavaScript 运行在浏览器之外的平台  
+Node.js 就是运行在服务端的 JavaScript
+node可以直接执行js文件  >  
 
-## Software Architecture
-Software architecture description
+		node helloworld.js  
+如果我们使用 PHP 来编写后端的代码时，需要 Apache 或者 Nginx 的 HTTP 服务器，并配上 mod_php5 模块和 php-cgi。
+使用 Node.js 时，我们不仅仅 在实现一个应用，同时还实现了整个 HTTP 服务器。
+
 
 ## Docker安装
 docker介绍  

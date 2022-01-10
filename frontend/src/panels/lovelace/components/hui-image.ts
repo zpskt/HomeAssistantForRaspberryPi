@@ -414,8 +414,7 @@ export class HuiImage extends LitElement {
       }
 
       #brokenImage {
-        background: grey url("/static/images/image-broken.svg") center/36px
-          no-repeat;
+        background: grey url("/static/images/oldcare.png") center/36px no-repeat;
       }
     `;
   }

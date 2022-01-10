@@ -72,12 +72,12 @@ const showMediaPlayer = () => {
     const style = document.createElement("style");
     style.innerHTML = `
     body {
-      --logo-image: url('https://www.home-assistant.io/images/home-assistant-logo.svg');
+      --logo-image: url('https://img2.baidu.com/it/u=1172096996,2215268603&fm=253&fmt=auto&app=138&f=JPEG?w=900&h=383');
       --logo-repeat: no-repeat;
-      --playback-logo-image: url('https://www.home-assistant.io/images/home-assistant-logo.svg');
+      --playback-logo-image: url('https://img2.baidu.com/it/u=1172096996,2215268603&fm=253&fmt=auto&app=138&f=JPEG?w=900&h=383');
       --theme-hue: 200;
       --progress-color: #03a9f4;
-      --splash-image: url('https://home-assistant.io/images/cast/splash.png');
+      --splash-image: url('https://img2.baidu.com/it/u=1172096996,2215268603&fm=253&fmt=auto&app=138&f=JPEG?w=900&h=383');
       --splash-size: cover;
       --background-color: #41bdf5;
     }

@@ -82,7 +82,7 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 		git clone https://github.com/zpskt/frontend.git
 1.开启hass容器，设置文件映射，一共两个：配置文件和frontend  
 
-		sudo docker run -itd   --name hass -p 8124:8123  -v /Users/zp/Desktop/homeassistant/:/root/.homeassistant   -v /Users/zp/Desktop/frontend:/frontend   zpskt/hass-mac:0.0.1
+		sudo docker run -itd   --name hass -p 8124:8123  -v /Users/zp/Desktop/homeassistant/:/root/.homeassistant   -v /Users/zp/mygit/HomeAssistant/frontend:/frontend   zpskt/hass-mac:0.0.1
 2.开启容器后你需要在配置文件configuration.yaml，添加配置
 >frontend:    
 >（缩进）development_repo: /path/to/hass/frontend/  
