@@ -37,7 +37,7 @@ zpskt/hass-raspi4:0.0.2 树莓派4Bhass，侧边栏，文件管理
 zpskt/hass-mac:0.0.1 mac上的镜像  
 
 ### 官方的docker安装  
-		sudo docker run -d   --name homeassistant   -p 8123:8123   --privileged   --restart=unless-stopped   -e TZ=Asia/Shanghai   -v /home/pi/homeassistant:/config   --network=bridge   ghcr.io/home-assistant/raspberrypi4-homeassistant:stable
+		sudo docker run -d   --name homeassistant   -p 8123:8123   --privileged   --restart=unless-stopped   -e TZ=Asia/Shanghai   -v /home/pi/homeassistant:/config   --network=host   ghcr.io/home-assistant/raspberrypi4-homeassistant:stable
 
 ### 配置属于自己的docker镜像
 ***你可以用这个代码安装，无论你是amd64还是arm架构***  
@@ -92,13 +92,25 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 		sudo docker run --name zphass -p 8124:8123 -it zpskt/hass-raspi4:0.0.1 /bin/bash
 进入docker容器
 
-		sudo docker exec -it zphass /bin/bash
-编排docker，设置容器开机启动hass  .是指根据当前文件夹的Dockerfile文件构建
+		sudo docker exec -it zphass /bin/bash  
+创建dockerfile
 
-		sudo docker build -t zpskt/hass-raspi4:latest .
+		nano Dockerfile  
+
+>  FROM zpskt/hass-raspi4:0.0.2  
+	   ENTRYPOINT ["/usr/local/bin/hass", "-c"]  
+	   CMD ["/root/.homeassistant"]>
+
+
+根据dockerfile建立镜像  
+
+		sudo docker build -t myhass .
 执行容器
 
-		sudo docker run --name hass -d -p 8124:8123 -v /home/pi/homeassistant:/root/.homeassistant -it zpskt/hass-raspi4:0.0.2 /bin/bash
+		sudo docker run --name hass-test -d -p 8124:8123 -it myhass /bin/bash
+编排docker，设置容器开机启动hass  .是指根据当前文件夹的
+
+	
 ### 修改属于自己的frontend 
 首先git下来frontend源码，我已经fork了  
 
@@ -112,6 +124,7 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 
 /path/to/hass/frontend/ 是你在容器中frontend的路径  
 3.你需要安装nvm，node，yarn，node版本在frontend文件夹都已经被设置了，执行代码即可  
+安装连接：https://developers.home-assistant.io/docs/frontend/development/ 
 
 		nvm install
 		nvm use
