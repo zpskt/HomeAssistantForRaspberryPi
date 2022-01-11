@@ -77,7 +77,7 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 /path/xx是你个人的配置路径
 此时hass检查有没有 -c，如果没有默认在/root/.homeassistant新建配置文件
 
-如果你看到http://yourpath:8123正常运行了，那么恭喜你此时这个容器就已经建设完成了，我们要保存这个容器为镜像。
+如果你看到http://yourpath:8123  正常运行了，那么恭喜你此时这个容器就已经建设完成了，我们要保存这个容器为镜像。
 
 16.		sudo docker commit -m "hass-0.0.1" -a "zp" hass-test(你的容器名字) zpskt/hass-raspi4:0.0.1(你要保存的镜像名，可以自定义)
 此时的镜像已经在你本机，没有上传到dockerhub，你也可以选择上传到dockerhub  
