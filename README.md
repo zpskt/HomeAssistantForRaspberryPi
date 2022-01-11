@@ -39,7 +39,7 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 ### 官方的docker安装  
 		sudo docker run -d   --name homeassistant   -p 8123:8123   --privileged   --restart=unless-stopped   -e TZ=Asia/Shanghai   -v /home/pi/homeassistant:/config   --network=host   ghcr.io/home-assistant/raspberrypi4-homeassistant:stable
 
-### 配置属于自己的docker镜像
+### 配置属于自己的docker镜像并配置homeassistant
 ***你可以用这个代码安装，无论你是amd64还是arm架构***  
 下载ubuntu基础镜像
 1.		sudo docker pull ubuntu:latest
@@ -63,20 +63,33 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 
 再次更新源，并且安装依赖  
 
-1.		apt update -y && apt upgrade -y
-2.		apt-get install -y  libffi-dev libssl-dev libjpeg-dev zlib1g-dev autoconf build-essential libopenjp2-7 libtiff5 libturbojpeg tzdata  
+10.		apt update -y && apt upgrade -y
+11.		apt-get install -y  libffi-dev libssl-dev libjpeg-dev zlib1g-dev autoconf build-essential libopenjp2-7 libtiff5 libturbojpeg tzdata  
 安装homeassistant  
 
-3.		pip3 install wheel -i https://pypi.tuna.tsinghua.edu.cn/simple
-4.		pip3 install homeassistant -i https://pypi.tuna.tsinghua.edu.cn/simple  
+12.		pip3 install wheel -i https://pypi.tuna.tsinghua.edu.cn/simple
+13.		pip3 install homeassistant -i https://pypi.tuna.tsinghua.edu.cn/simple  
  
-5.		ln -s /usr/local/python3/bin/hass /usr/bin/hass  
+14.		ln -s /usr/local/python3/bin/hass /usr/bin/hass  
 安装完命令行执行hass，此时hass命令在/usr/local/bin/hass中  
 
-6.		hass / hass -c /path/xx
+15.		hass / hass -c /path/xx
 /path/xx是你个人的配置路径
 此时hass检查有没有 -c，如果没有默认在/root/.homeassistant新建配置文件
 
+如果你看到http://yourpath:8123正常运行了，那么恭喜你此时这个容器就已经建设完成了，我们要保存这个容器为镜像。
+
+16.		sudo docker commit -m "hass-0.0.1" -a "zp" hass-test(你的容器名字) zpskt/hass-raspi4:0.0.1(你要保存的镜像名，可以自定义)
+此时的镜像已经在你本机，没有上传到dockerhub，你也可以选择上传到dockerhub  
+		sudo docker push zpskt/hass-raspi4:0.0.1（你的镜像名字）
+现在我们用已经设置完的镜像来生成一个新容器  
+
+17.		sudo docker run --name zphass -p 8124:8123 -it zpskt/hass-raspi4:0.0.1（刚才你的镜像名字） /bin/bash  
+进入容器执行hass手动打开
+
+18.		sudo docker exec -it zphass /bin/bash
+		容器id#: hass
+大功告成
 ### 常用Docker命令  
 复制本地文件到容器中  
 
