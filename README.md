@@ -158,21 +158,11 @@ zpskt/hass-mac:0.0.1 mac上的镜像
 		pip3 install -e /path/to/hass/frontend/
 		hass --skip-pip
 
-web容器，部署代码， 官方dockerfile，docker里面    ts也用框架 
-hass core   展现web
-hass启动命令
-	import re
-	import sys
-	from homeassistant.__main__ import main
-	if __name__ == '__main__':
-		sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
-		sys.exit(main())
+####修改frontend与源码位置
+![](/Users/zp/Downloads/iShot2022-01-20 14.29.53.png)
+
+1. 是公共资源区域，自定义的照片什么的在这里进行替换
+2. src是源码，在这里修改的前端代码，注意！不是在hass_frontend文件里面，那个是根绝src源码每次编译出来的。
+3. 翻译文件，对应不同语言的翻译。例如开发者工具等，可以直接在这里修改成开发工具或者你喜欢的名字。
 
 
-
-
-nodejs 解析web 有自己的服务器 =vue
-为什么引用ts
-有个文件调用hass core
-
-loadingdata 图标
