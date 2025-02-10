@@ -1,6 +1,7 @@
-# zp-HomeAssistant
-
 ## 介绍
+本项目是为了在树莓派上运行hass针对个人用户的定制化项目。
+我已经将镜像打包上传至dockerhub，有需要的可以自行拉取。
+## 须知
 config放置homeassistant配置文件
 install放置开机服务，脚本，dockerfile等  
 一个厉害的人的教程：https://shaonianzhentan.github.io/ha-docs/#/    
